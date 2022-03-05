@@ -11,7 +11,7 @@ config:
   #networkType: OVNKubernetes
   # Network Policy is enabled by default. To use Multitenant or Subnet, change isolationMode
   #isolationMode: Multitenant
-  installer_ssh_key: "{{ lookup('file', '~/.ssh/keyinstall.pub') }}"
+  installer_ssh_key: "{{ lookup('file', '~/.ssh/ocp4.pub') }}"
   pull_secret: "{{ lookup('file', 'pullsecret.txt') }}"
 vcenter:
   ip: 10.46.27.86
