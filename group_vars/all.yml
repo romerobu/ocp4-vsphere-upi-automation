@@ -46,7 +46,7 @@ static_ip:
   network_interface_name: ens192
 # For network_modifications: Network CIDRs default to sensible ranges.  
 network_modifications:
-  enabled: true
+  enabled: false
   clusterNetwork:
   - cidr: 10.128.0.0/14
     hostPrefix: 23
