@@ -58,8 +58,8 @@ network_modifications:
 # If proxy.enabled is set to False anything defined under proxy and the proxy setup is ignored  
 proxy:
   enabled: false
-  http_proxy: http://{{helper_name}}.{{cluster_name}}.{{base_domain}}:3129
-  https_proxy: http://{{helper_name}}.{{cluster_name}}.{{base_domain}}:3129
+  http_proxy: http://{{helper_name}}.{{config.cluster_name}}.{{config.base_domain}}:3129
+  https_proxy: http://{{helper_name}}.{{config.cluster_name}}.{{config.base_domain}}:3129
   no_proxy: lab.ocp.lan
   cert_content: |
     -----BEGIN CERTIFICATE-----
