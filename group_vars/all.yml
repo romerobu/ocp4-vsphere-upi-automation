@@ -1,45 +1,50 @@
-helper_vm_ip: 192.168.86.180
-bootstrap_ignition_url: "http://{{helper_vm_ip}}:8080/ignition/bootstrap.ign"
+helper_vm_ip: 192.168.86.151
+helper_name: bastion2
+bootstrap_ignition_url: "http://{{helper_vm_ip}}:8080/ocp4/bootstrap.ign"
 config:
+#   provider: none
   provider: vsphere
-  base_domain: example.com
-  cluster_name: ocp4
+  base_domain: ocp.lan
+  cluster_name: lab
   fips: false
   #networkType: OVNKubernetes
+  # Network Policy is enabled by default. To use Multitenant or Subnet, change isolationMode
   #isolationMode: Multitenant
-  installer_ssh_key: "{{ lookup('file', '~/.ssh/ocp4.pub') }}"
-  pull_secret: "{{ lookup('file', '~/pullsecret') }}"
+  installer_ssh_key: "{{ lookup('file', '~/.ssh/keyinstall.pub') }}"
+  pull_secret: "{{ lookup('file', 'pullsecret.txt') }}"
 vcenter:
-  ip: 192.168.86.100
-  datastore: datastore1
-  network: VM Network
+  ip: 10.46.27.86
+  datastore: datastore2
+  network: OCP
   service_account_username: administrator@vsphere.local
-  service_account_password: something
+  service_account_password: cajamar+_A2
   admin_username: administrator@vsphere.local
-  admin_password: something
-  datacenter: dc
+  admin_password: cajamar+_A2
+  datacenter: Datacenter
   folder_absolute_path:
   vm_power_state: poweredon
-  template_name: rhcos-vmware
+  template_name: rhcos-vmware-template
 download:
   clients_url: https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest
   dependencies_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/latest/latest
   govc: https://github.com/vmware/govmomi/releases/download/v0.27.4
 bootstrap_vms:
-  - { name: "bootstrap", macaddr: "00:50:56:a8:aa:a1", ipaddr: "192.168.86.181", cpu: 4, ram: 16384}
+# # For static ips  VMware will auto-generate your MAC addresses
+  - { name: "bootstrap", macaddr: "00:50:56:00:00:00", ipaddr: "192.168.22.200", cpu: 4, ram: 16384}
 master_vms:
-  - { name: "master0", macaddr: "00:50:56:a8:aa:a2", ipaddr: "192.168.86.182", cpu: 4, ram: 16384}
-  - { name: "master1", macaddr: "00:50:56:a8:aa:a3", ipaddr: "192.168.86.183", cpu: 4, ram: 16384}
-  - { name: "master2", macaddr: "00:50:56:a8:aa:a4", ipaddr: "192.168.86.184", cpu: 4, ram: 16384}
+  - { name: "control-plane-0", macaddr: "00:50:56:a8:aa:a2", ipaddr: "192.168.22.201", cpu: 4, ram: 16384}
+  - { name: "control-plane-1", macaddr: "00:50:56:a8:aa:a3", ipaddr: "192.168.22.202", cpu: 4, ram: 16384}
+  - { name: "control-plane-2", macaddr: "00:50:56:a8:aa:a4", ipaddr: "192.168.22.203", cpu: 4, ram: 16384}
 worker_vms:
-  - { name: "worker0", macaddr: "00:50:56:a8:aa:a5", ipaddr: "192.168.86.185", cpu: 4, ram: 16384}
-  - { name: "worker1", macaddr: "00:50:56:a8:aa:a6", ipaddr: "192.168.86.186", cpu: 4, ram: 16384}
-  - { name: "worker2", macaddr: "00:50:56:a8:aa:a7", ipaddr: "192.168.86.187", cpu: 4, ram: 16384}
+  - { name: "worker-0", macaddr: "00:50:56:a8:aa:a5", ipaddr: "192.168.22.211", cpu: 4, ram: 16384}
+  - { name: "worker-1", macaddr: "00:50:56:a8:aa:a6", ipaddr: "192.168.22.212", cpu: 4, ram: 16384}
+  - { name: "worker-2", macaddr: "00:50:56:a8:aa:a7", ipaddr: "192.168.22.213", cpu: 4, ram: 16384}
 static_ip:
-  gateway: 192.168.86.1
+  gateway: 192.168.22.1
   netmask: 255.255.255.0
   dns: "{{ helper_vm_ip }}"
   network_interface_name: ens192
+# For network_modifications: Network CIDRs default to sensible ranges.  
 network_modifications:
   enabled: true
   clusterNetwork:
@@ -49,15 +54,17 @@ network_modifications:
   - cidr: 172.30.0.0/16
   machineNetwork:
   - cidr: 192.168.29.0/24
+# If proxy.enabled is set to False anything defined under proxy and the proxy setup is ignored  
 proxy:
   enabled: false
-  http_proxy: http://helper.ocp4.example.com:3129
-  https_proxy: http://helper.ocp4.example.com:3129
-  no_proxy: example.com
+  http_proxy: http://{{helper_name}}.{{cluster_name}}.{{base_domain}}:3129
+  https_proxy: http://{{helper_name}}.{{cluster_name}}.{{base_domain}}:3129
+  no_proxy: lab.ocp.lan
   cert_content: |
     -----BEGIN CERTIFICATE-----
         <certficate content>
     -----END CERTIFICATE-----
+# When doing the restricted network install and following instructions from restricted.md, furnish details related to the registry with a section like below. If registry.enabled is set to False anything defined under registry and the registry setup is ignored    
 registry:
   enabled: false
   product_repo: openshift-release-dev
@@ -70,6 +77,7 @@ registry:
   host: registry.ocp4.example.com
   port: 5000
   repo: ocp4/openshift4
+# If you wish to enable custom NTP servers on your nodes, set ntp.custom to True and define ntp.ntp_server_list to fit your requirements.  
 ntp:
   custom: false
   ntp_server_list:

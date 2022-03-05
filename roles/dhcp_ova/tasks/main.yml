@@ -4,6 +4,7 @@
 #      dest: "{{ playbook_dir }}/install-dir/append-bootstrap.ign"
 #      mode: '0664'
 
+#DHCP + use of OVA template
   - name: Download the ova file
     get_url:
       url: "{{ download.ova }}"
