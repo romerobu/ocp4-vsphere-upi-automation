@@ -30,16 +30,25 @@ download:
   dependencies_url: https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/latest/latest
   govc: https://github.com/vmware/govmomi/releases/download/v0.27.4
 bootstrap_vms:
-# # For static ips  VMware will auto-generate your MAC addresses
-  - { name: "bootstrap", macaddr: "00:50:56:00:00:00", ipaddr: "192.168.22.200", cpu: 4, ram: 16384}
+# # For static ips  VMware will auto-generate your MAC addresses (delete macaddr)
+#   - { name: "bootstrap", macaddr: "00:50:56:00:00:00", ipaddr: "192.168.22.200", cpu: 4, ram: 16384}
+# master_vms:
+#   - { name: "control-plane-0", macaddr: "00:50:56:a8:aa:a2", ipaddr: "192.168.22.201", cpu: 4, ram: 16384}
+#   - { name: "control-plane-1", macaddr: "00:50:56:a8:aa:a3", ipaddr: "192.168.22.202", cpu: 4, ram: 16384}
+#   - { name: "control-plane-2", macaddr: "00:50:56:a8:aa:a4", ipaddr: "192.168.22.203", cpu: 4, ram: 16384}
+# worker_vms:
+#   - { name: "worker-0", macaddr: "00:50:56:a8:aa:a5", ipaddr: "192.168.22.211", cpu: 4, ram: 16384}
+#   - { name: "worker-1", macaddr: "00:50:56:a8:aa:a6", ipaddr: "192.168.22.212", cpu: 4, ram: 16384}
+#   - { name: "worker-2", macaddr: "00:50:56:a8:aa:a7", ipaddr: "192.168.22.213", cpu: 4, ram: 16384}
+  - { name: "bootstrap", ipaddr: "192.168.22.200", cpu: 4, ram: 16384}
 master_vms:
-  - { name: "control-plane-0", macaddr: "00:50:56:a8:aa:a2", ipaddr: "192.168.22.201", cpu: 4, ram: 16384}
-  - { name: "control-plane-1", macaddr: "00:50:56:a8:aa:a3", ipaddr: "192.168.22.202", cpu: 4, ram: 16384}
-  - { name: "control-plane-2", macaddr: "00:50:56:a8:aa:a4", ipaddr: "192.168.22.203", cpu: 4, ram: 16384}
+  - { name: "control-plane-0", ipaddr: "192.168.22.201", cpu: 4, ram: 16384}
+  - { name: "control-plane-1",  ipaddr: "192.168.22.202", cpu: 4, ram: 16384}
+  - { name: "control-plane-2", ipaddr: "192.168.22.203", cpu: 4, ram: 16384}
 worker_vms:
-  - { name: "worker-0", macaddr: "00:50:56:a8:aa:a5", ipaddr: "192.168.22.211", cpu: 4, ram: 16384}
-  - { name: "worker-1", macaddr: "00:50:56:a8:aa:a6", ipaddr: "192.168.22.212", cpu: 4, ram: 16384}
-  - { name: "worker-2", macaddr: "00:50:56:a8:aa:a7", ipaddr: "192.168.22.213", cpu: 4, ram: 16384}
+  - { name: "worker-0", ipaddr: "192.168.22.211", cpu: 4, ram: 16384}
+  - { name: "worker-1",  ipaddr: "192.168.22.212", cpu: 4, ram: 16384}
+  - { name: "worker-2",  ipaddr: "192.168.22.213", cpu: 4, ram: 16384}
 static_ip:
   gateway: 192.168.22.1
   netmask: 255.255.255.0
