@@ -8,6 +8,7 @@ config:
   base_domain: ocp.lan
   cluster_name: lab
   fips: false
+  networkType: OpenShiftSDN
   #networkType: OVNKubernetes
   # Network Policy is enabled by default. To use Multitenant or Subnet, change isolationMode
   #isolationMode: Multitenant
