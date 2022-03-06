@@ -76,15 +76,15 @@ proxy:
     -----END CERTIFICATE-----
 # When doing the restricted network install and following instructions from restricted.md, furnish details related to the registry with a section like below. If registry.enabled is set to False anything defined under registry and the registry setup is ignored    
 registry:
-  enabled: false
+  enabled: true
   product_repo: openshift-release-dev
   product_release_name: ocp-release
-  product_release_version: 4.4.0-x86_64
+  product_release_version: 4.9.0-x86_64
   username: ansible
   password: ansible
   email: user@awesome.org
   cert_content:
-  host: registry.ocp4.example.com
+  host: registry.lab.ocp.lan
   port: 5000
   repo: ocp4/openshift4
 # If you wish to enable custom NTP servers on your nodes, set ntp.custom to True and define ntp.ntp_server_list to fit your requirements.  
