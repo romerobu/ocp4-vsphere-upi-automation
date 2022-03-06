@@ -1,4 +1,14 @@
+- name: Create ~/.ssh directory if it does not exist
+  file:
+    path: ~/.ssh
+    state: directory
+    mode: '0755'
 
+- name: Generate a SSH key-pair
+  openssh_keypair:
+    path: ~/.ssh/ocp4
+    force: false
+    
 - name: Print networkType
   debug:
     msg: "{{ config.networkType }}"
@@ -22,17 +32,6 @@
       - config.isolationMode must be NetworkPolicy, Multitenant, or Subnet
     success_msg: config.isolationMode is valid
   when: config.isolationMode is defined
-
-- name: Create ~/.ssh directory if it does not exist
-  file:
-    path: ~/.ssh
-    state: directory
-    mode: '0755'
-
-- name: Generate a SSH key-pair
-  openssh_keypair:
-    path: ~/.ssh/ocp4
-    force: false
 
 - name: Set the datacenter variable
   set_fact:
