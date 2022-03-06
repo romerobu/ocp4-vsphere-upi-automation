@@ -1,3 +1,8 @@
+
+- name: Print networkType
+  debug:
+    msg: "{{ config.networkType }}"
+
 - name: Make sure networkType is valid when defined
   assert:
     that:
