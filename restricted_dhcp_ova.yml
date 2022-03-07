@@ -37,6 +37,9 @@
       import_role:
         name: common
         tasks_from: install
+
+# Convert to agnostic
+
 - hosts: localhost
   gather_facts: False
   environment:
